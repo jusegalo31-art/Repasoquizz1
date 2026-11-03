@@ -1,0 +1,90 @@
+# ¡MI GRAN RETO DE INFORMÁTICA! 🚀💻
+### Quiz interactivo con voz para estudiantes de 1° de primaria (5 a 7 años)
+**Colegio México • Primer Periodo • Gran Repaso de Informática**
+
+Plataforma educativa web inspirada en Quizizz y Kahoot, diseñada especialmente para niños que están en proceso de aprendizaje de la lectura.
+
+---
+
+## 🌟 Características Principales
+
+1. **Voz y Narración Inteligente (Acento Colombiano Natural y Humano)**:
+   - Voz con acento colombiano natural, cálido, expresivo y con entonación maternal de profesora infantil para niños de 5 a 7 años.
+   - **ElevenLabs con Ajustes Naturales**: Modelo `eleven_multilingual_v2` afinado con estabilidad de `0.40` y estilo de `0.45` para lograr inflexiones humanas auténticas, entonación alegre y pausas naturales de respiración (voz por defecto: `cgSgspJ2msm6clMCkdW9` - Profe Sofia).
+   - **Motor de Respaldo Neuronal**: Si no hay clave de ElevenLabs, prioriza voces neuronales colombianas (*Microsoft Salome Online Natural - Colombia* en Edge/Windows) y ajusta velocidad (`0.94`) y tono (`1.04`) para un sonido 100% natural y no sintético.
+   - **Expresiones colombianas de aliento**: *"¡Pilas pues!", "¡Ojo al dato!", "¡Qué pilo eres!", "¡Lo hiciste de maravilla!", "¡Tranquilo mi corazón, de los errores también aprendemos!"*.
+
+2. **Diseño de Videojuego Educativo Infantil**:
+   - Personaje animado **"Tito el Robot"**: mueve la boca al hablar (lip-sync), pestañea, celebra con estrellas al acertar y da ánimo con el pulgar arriba si se equivoca.
+   - **Tarjetas táctiles 3D** en colores Azul, Amarillo y Rojo, con esquinas redondeadas y botones amplios.
+   - **Ilustraciones vectoriales claras y amigables** para cada una de las 63 opciones (21 preguntas × 3 opciones), permitiendo jugar 100% de manera visual y auditiva.
+   - Efectos de sonido sintetizados con **Web Audio API** (sin dependencias de archivos externos que puedan fallar en red escolar).
+   - Animación de confeti y celebración.
+   - **Retroalimentación no punitiva**: Sin cruces rojas agresivas ni sonidos desagradables.
+
+3. **21 Preguntas Pedagógicamente Curadas (15 Base + 6 Desafiantes)**:
+   - Concepto de computador y máquina de tareas.
+   - Dispositivos que también son computadores (tablet, celular, portátil).
+   - Partes del computador (monitor, torre/CPU, teclado, ratón).
+   - Función de parlantes y cámara web.
+   - Letras y números del teclado.
+   - Teclas especiales (Barra espaciadora, Enter y Borrar/Backspace).
+   - Ratón: movimiento, apuntado, clic, doble clic y arrastrar.
+   - Usos de la tecnología (aprender, escribir, dibujar, escuchar música, comunicarnos por videollamada).
+   - **6 Preguntas Desafiantes**: Diferenciación de portátil vs escritorio, uso exacto de la tecla borrar para corregir errores, arrastrar para pintar o mover objetos, partes necesarias para videollamadas con abuelitos, actividades reales del computador vs electrodomésticos del hogar, y funcionamiento de la torre como cerebro aunque el monitor esté apagado.
+   - **Distribución perfectamente balanceada**: Exactamente 7 respuestas correctas en cada color (Azul, Amarillo, Rojo) y en cada posición (primera, segunda, tercera).
+
+4. **Sistema de Calificación Oficial (Escala 0 a 10)**:
+   - Fórmula: `Calificación = (Respuestas correctas / Total) × 10` (redondeada a un decimal).
+   - Aprobación: **6.0 o superior = APROBADO 🏆**. Menor a 6.0 = **DEBE SEGUIR PRACTICANDO 💡**.
+   - Contador de intentos y registro de mejor calificación histórica por estudiante persistido en `localStorage`.
+
+---
+
+## 🚀 Cómo Ejecutar la Aplicación
+
+### Opción 1: Modo Producción (Recomendado para clases y estudiantes)
+```bash
+# Iniciar el servidor unificado (sirve la web y la API de voz en http://localhost:3001)
+npm start
+```
+Abre tu navegador en: **`http://localhost:3001`**
+
+### Opción 2: Modo Desarrollo
+```bash
+# Terminal 1: Iniciar el backend
+npm run server
+
+# Terminal 2: Iniciar Vite con recarga rápida
+npm run dev
+```
+
+---
+
+## 🎙️ Configuración de ElevenLabs
+
+Puedes configurar la clave API de dos formas:
+
+1. **Desde la Interfaz Gráfica (Fácil para docentes)**:
+   - Haz clic en el botón **"Docente / Voz"** en la esquina superior derecha de la pantalla de inicio.
+   - Pega tu clave de API de ElevenLabs (`xi-api-key`) y selecciona la voz recomendada (*Lily - Profe Sofia*, *Sarah*, o *Laura*).
+   - Haz clic en **"Guardar Configuración"** y prueba la voz con el botón **"Probar voz"**.
+
+2. **Mediante archivo `.env`**:
+   Edita el archivo `.env` en la raíz del proyecto:
+   ```env
+   ELEVENLABS_API_KEY=tu_clave_aqui
+   ELEVENLABS_VOICE_ID=pFZP5JQG7iQjIQuC4Bku
+   ELEVENLABS_MODEL_ID=eleven_multilingual_v2
+   PORT=3001
+   ```
+
+> **Nota**: Si no configuras ninguna clave de ElevenLabs, ¡la aplicación sigue funcionando al 100%! Activa automáticamente el motor Web Speech en español neutro/colombiano.
+
+---
+
+## 📱 Compatibilidad
+- **Celulares**: Interfaz vertical adaptada con botones gigantes y sin desplazamientos horizontales.
+- **Tablets / iPads**: Cuadrícula de 3 columnas de opciones con gran área táctil.
+- **Computadores**: Pantalla completa interactiva con soporte de teclado y ratón.
+
