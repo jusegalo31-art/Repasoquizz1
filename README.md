@@ -1,8 +1,8 @@
-# ¡MI GRAN RETO DE INFORMÁTICA! 🚀💻
-### Quiz interactivo con voz para estudiantes de 1° de primaria (5 a 7 años)
-**Colegio México • Primer Periodo • Gran Repaso de Informática**
+# ¡EVALUACIÓN FINAL DE INFORMÁTICA! 🚀💻
+### Evaluación interactiva con voz para estudiantes de 1° de primaria (5 a 7 años)
+**Colegio México • Primer Periodo • Evaluación Final de Informática**
 
-Plataforma educativa web inspirada en Quizizz y Kahoot, diseñada especialmente para niños que están en proceso de aprendizaje de la lectura.
+Plataforma de evaluación web inspirada en Quizizz y Kahoot, diseñada especialmente para niños que están en proceso de aprendizaje de la lectura.
 
 ---
 
@@ -17,25 +17,25 @@ Plataforma educativa web inspirada en Quizizz y Kahoot, diseñada especialmente 
 2. **Diseño de Videojuego Educativo Infantil**:
    - Personaje animado **"Tito el Robot"**: mueve la boca al hablar (lip-sync), pestañea, celebra con estrellas al acertar y da ánimo con el pulgar arriba si se equivoca.
    - **Tarjetas táctiles 3D** en colores Azul, Amarillo y Rojo, con esquinas redondeadas y botones amplios.
-   - **Ilustraciones vectoriales claras y amigables** para cada una de las 63 opciones (21 preguntas × 3 opciones), permitiendo jugar 100% de manera visual y auditiva.
+   - **Ilustraciones vectoriales claras y amigables** para cada una de las 75 opciones (25 preguntas × 3 opciones), permitiendo presentar la evaluación 100% de manera visual y auditiva.
    - Efectos de sonido sintetizados con **Web Audio API** (sin dependencias de archivos externos que puedan fallar en red escolar).
    - Animación de confeti y celebración.
    - **Retroalimentación no punitiva**: Sin cruces rojas agresivas ni sonidos desagradables.
 
-3. **21 Preguntas Pedagógicamente Curadas (15 Base + 6 Desafiantes)**:
+3. **25 Preguntas de Evaluación Final**:
    - Concepto de computador y máquina de tareas.
-   - Dispositivos que también son computadores (tablet, celular, portátil).
+   - Dispositivos que también son computadores (celular inteligente, tablet y computador portátil).
    - Partes del computador (monitor, torre/CPU, teclado, ratón).
    - Función de parlantes y cámara web.
    - Letras y números del teclado.
    - Teclas especiales (Barra espaciadora, Enter y Borrar/Backspace).
-   - Ratón: movimiento, apuntado, clic, doble clic y arrastrar.
-   - Usos de la tecnología (aprender, escribir, dibujar, escuchar música, comunicarnos por videollamada).
-   - **6 Preguntas Desafiantes**: Diferenciación de portátil vs escritorio, uso exacto de la tecla borrar para corregir errores, arrastrar para pintar o mover objetos, partes necesarias para videollamadas con abuelitos, actividades reales del computador vs electrodomésticos del hogar, y funcionamiento de la torre como cerebro aunque el monitor esté apagado.
-   - **Distribución perfectamente balanceada**: Exactamente 7 respuestas correctas en cada color (Azul, Amarillo, Rojo) y en cada posición (primera, segunda, tercera).
+   - Ratón: puntero/flechita, clic simple, doble clic y arrastrar.
+   - Usos de la tecnología (aprender, escribir, dibujar, escuchar música, jugar y comunicarnos por videollamada).
+   - **Distribución perfectamente balanceada**: 8 Azul, 8 Amarillo y 9 Rojo distribuidas de forma equitativa en las 3 posiciones.
 
-4. **Sistema de Calificación Oficial (Escala 0 a 10)**:
-   - Fórmula: `Calificación = (Respuestas correctas / Total) × 10` (redondeada a un decimal).
+4. **Sistema de Calificación Oficial (Escala 0 a 10) y Límite de 2 Intentos**:
+   - **Máximo 2 intentos por estudiante**: El sistema verifica el nombre del estudiante y permite presentar la evaluación un máximo de 2 veces, conservando su mejor nota definitiva.
+   - Fórmula: `Calificación = (Respuestas correctas / 25) × 10` (redondeada a un decimal).
    - Aprobación: **6.0 o superior = APROBADO 🏆**. Menor a 6.0 = **DEBE SEGUIR PRACTICANDO 💡**.
    - Contador de intentos y registro de mejor calificación histórica por estudiante persistido en `localStorage`.
 

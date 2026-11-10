@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { QuizAttempt } from '../types';
 import { Trophy, X, Trash2, Award, Calendar } from 'lucide-react';
-import { getAllAttempts, clearAllAttempts } from '../services/storage';
+import { getAllAttempts, clearAllAttempts, normalizeStudentName, MAX_ATTEMPTS } from '../services/storage';
 import { soundEffects } from '../services/soundEffects';
 
 interface HistoryModalProps {
@@ -17,10 +17,16 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
 }) => {
   const [attempts, setAttempts] = useState<QuizAttempt[]>(() => getAllAttempts());
 
+  useEffect(() => {
+    if (isOpen) {
+      setAttempts(getAllAttempts());
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   const handleClear = () => {
-    if (window.confirm('¿Seguro que deseas borrar el historial de intentos guardados en este dispositivo?')) {
+    if (window.confirm('¿Seguro que deseas borrar el registro de calificaciones de la Evaluación Final en este dispositivo?')) {
       clearAllAttempts();
       setAttempts([]);
       soundEffects.playPop();
@@ -37,7 +43,10 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
         <div className="p-4 sm:p-5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Trophy className="w-6 h-6 text-amber-300" />
-            <h3 className="text-xl sm:text-2xl font-black">Historial de Intentos</h3>
+            <div>
+              <h3 className="text-xl sm:text-2xl font-black">Resultados • Evaluación Final</h3>
+              <p className="text-xs text-indigo-100">25 preguntas • Máximo {MAX_ATTEMPTS} intentos por estudiante</p>
+            </div>
           </div>
           <button
             type="button"
@@ -56,13 +65,15 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
           {attempts.length === 0 ? (
             <div className="text-center py-12 text-slate-500">
               <span className="text-5xl block mb-2">⭐</span>
-              <p className="font-bold text-lg">Aún no hay intentos registrados.</p>
-              <p className="text-sm text-slate-400">¡Completa el quiz para ver tus calificaciones aquí!</p>
+              <p className="font-bold text-lg">Aún no hay evaluaciones registradas.</p>
+              <p className="text-sm text-slate-400">¡Completa la Evaluación Final para ver tus calificaciones aquí!</p>
             </div>
           ) : (
             <div className="flex flex-col gap-3">
               {attempts.map(att => {
-                const isCurrent = currentStudentName && att.studentName.trim().toLowerCase() === currentStudentName.trim().toLowerCase();
+                const isCurrent =
+                  Boolean(currentStudentName) &&
+                  normalizeStudentName(att.studentName) === normalizeStudentName(currentStudentName || '');
                 const isApproved = att.score >= 6.0;
                 const isBest = att.score === bestScore && bestScore > 0;
 
@@ -93,12 +104,12 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
                             {att.studentName}
                           </span>
                           <span className="text-xs bg-slate-200 text-slate-700 px-2 py-0.5 rounded-full font-bold">
-                            Intento #{att.attemptNumber}
+                            Intento {att.attemptNumber} de {MAX_ATTEMPTS}
                           </span>
                           {isBest && (
                             <span className="text-xs bg-amber-400 text-amber-950 px-2 py-0.5 rounded-full font-black flex items-center gap-1">
                               <Award className="w-3 h-3" />
-                              Mejor puntaje
+                              Mejor nota
                             </span>
                           )}
                         </div>
@@ -148,7 +159,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
               className="flex items-center gap-1.5 px-3 py-2 text-rose-600 hover:bg-rose-50 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer"
             >
               <Trash2 className="w-4 h-4" />
-              <span>Limpiar historial</span>
+              <span>Limpiar registro</span>
             </button>
           )}
 
@@ -167,4 +178,3 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
     </div>
   );
 };
-

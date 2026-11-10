@@ -398,7 +398,7 @@ class TTSClientService {
     try {
       this.notifyState('speaking');
       const text =
-        '¡Hola, mis campeones y campeonas! ¡Qué alegría tenerlos aquí! Hoy vamos a demostrar todo lo pilos que somos con los computadores. Escuchen con mucha atención a su profe y toquen el color de la respuesta correcta. ¡Vamos con toda a jugar!';
+        '¡Hola, mis campeones y campeonas! ¡Bienvenidos a su Evaluación Final de Informática! Hoy vamos a responder veinticinco preguntas para demostrar todo lo pilos que somos con los computadores. Recuerden que tienen hasta dos intentos. Escuchen con mucha atención a su profe y toquen el color de la respuesta correcta. ¡Vamos con toda!';
       await this.speakText(text);
     } finally {
       if (seqId === this.activeSequenceId) {
@@ -415,9 +415,9 @@ class TTSClientService {
       this.notifyState('speaking');
       let text = '';
       if (isPassing) {
-        text = `¡Felicitaciones, qué orgullo, ${studentName}! Sacaste una calificación de ${score} sobre diez. ¡Eres un verdadero experto en informática!`;
+        text = `¡Felicitaciones, qué orgullo, ${studentName}! En tu Evaluación Final de Informática sacaste una calificación de ${score} sobre diez. ¡Eres un verdadero experto en informática!`;
       } else {
-        text = `¡Hiciste un gran esfuerzo, ${studentName}! Sacaste una calificación de ${score} sobre diez. Con un poquito más de práctica lo vas a lograr facilito. ¡Mucho ánimo y pa'lante!`;
+        text = `¡Hiciste un gran esfuerzo en tu Evaluación Final, ${studentName}! Sacaste una calificación de ${score} sobre diez. Con un poquito más de práctica lo vas a lograr facilito. ¡Mucho ánimo y pa'lante!`;
       }
       await this.speakText(text);
     } finally {

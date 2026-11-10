@@ -627,6 +627,76 @@ export const QuizIllustration: React.FC<IllustrationProps> = ({ name, className 
         </svg>
       );
 
+    case 'smartphone':
+      return (
+        <svg viewBox="0 0 100 100" className={className} fill="none">
+          {/* Smartphone body */}
+          <rect x="28" y="10" width="44" height="76" rx="10" fill="#1E293B" stroke="#0F172A" strokeWidth="4" />
+          <rect x="33" y="18" width="34" height="56" rx="4" fill="#38BDF8" />
+          {/* Speaker notch */}
+          <line x1="45" y1="14" x2="55" y2="14" stroke="#94A3B8" strokeWidth="2.5" strokeLinecap="round" />
+          {/* App grid */}
+          <rect x="37" y="24" width="10" height="10" rx="2.5" fill="#4ADE80" />
+          <rect x="53" y="24" width="10" height="10" rx="2.5" fill="#FACC15" />
+          <rect x="37" y="40" width="10" height="10" rx="2.5" fill="#F43F5E" />
+          <rect x="53" y="40" width="10" height="10" rx="2.5" fill="#A855F7" />
+          {/* Home bar */}
+          <circle cx="50" cy="80" r="3" fill="#94A3B8" />
+          <text x="50" y="97" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0F172A" fontFamily="Fredoka">CELULAR 📱</text>
+        </svg>
+      );
+
+    case 'bicycle':
+      return (
+        <svg viewBox="0 0 100 100" className={className} fill="none">
+          {/* Wheels */}
+          <circle cx="26" cy="64" r="16" fill="#E2E8F0" stroke="#0F172A" strokeWidth="4" />
+          <circle cx="26" cy="64" r="4" fill="#0F172A" />
+          <circle cx="74" cy="64" r="16" fill="#E2E8F0" stroke="#0F172A" strokeWidth="4" />
+          <circle cx="74" cy="64" r="4" fill="#0F172A" />
+          {/* Frame */}
+          <path d="M 26 64 L 46 64 L 62 42 L 38 42 Z" stroke="#EF4444" strokeWidth="4" strokeLinejoin="round" fill="none" />
+          <line x1="38" y1="42" x2="34" y2="32" stroke="#0F172A" strokeWidth="4" strokeLinecap="round" />
+          <line x1="28" y1="32" x2="40" y2="32" stroke="#0F172A" strokeWidth="5" strokeLinecap="round" />
+          <line x1="74" y1="64" x2="62" y2="30" stroke="#EF4444" strokeWidth="4" strokeLinecap="round" />
+          <line x1="56" y1="30" x2="68" y2="30" stroke="#0F172A" strokeWidth="4" strokeLinecap="round" />
+          <text x="50" y="95" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0F172A" fontFamily="Fredoka">BICICLETA 🚲</text>
+        </svg>
+      );
+
+    case 'fridge':
+      return (
+        <svg viewBox="0 0 100 100" className={className} fill="none">
+          {/* Fridge body */}
+          <rect x="26" y="12" width="48" height="74" rx="8" fill="#BAE6FD" stroke="#0F172A" strokeWidth="4" />
+          {/* Freezer divider */}
+          <line x1="26" y1="38" x2="74" y2="38" stroke="#0F172A" strokeWidth="3.5" />
+          {/* Handles */}
+          <line x1="34" y1="22" x2="34" y2="32" stroke="#0284C7" strokeWidth="4" strokeLinecap="round" />
+          <line x1="34" y1="46" x2="34" y2="62" stroke="#0284C7" strokeWidth="4" strokeLinecap="round" />
+          {/* Snowflake icon */}
+          <circle cx="56" cy="25" r="5" fill="#FFFFFF" />
+          <text x="50" y="96" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0F172A" fontFamily="Fredoka">NEVERA 🧊</text>
+        </svg>
+      );
+
+    case 'space-words':
+      return (
+        <svg viewBox="0 0 100 100" className={className} fill="none">
+          {/* Top word pair separated by space */}
+          <rect x="8" y="20" width="36" height="22" rx="5" fill="#BAE6FD" stroke="#0F172A" strokeWidth="2.5" />
+          <text x="26" y="35" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0F172A" fontFamily="Fredoka">MI</text>
+          <rect x="56" y="20" width="36" height="22" rx="5" fill="#BAE6FD" stroke="#0F172A" strokeWidth="2.5" />
+          <text x="74" y="35" textAnchor="middle" fontSize="11" fontWeight="bold" fill="#0F172A" fontFamily="Fredoka">MAMÁ</text>
+          {/* Arrow pointing to space */}
+          <path d="M 50 52 L 50 38" stroke="#E11D48" strokeWidth="3" strokeLinecap="round" />
+          {/* Spacebar key at bottom */}
+          <rect x="14" y="56" width="72" height="24" rx="6" fill="#FDE047" stroke="#0F172A" strokeWidth="3.5" />
+          <path d="M 32 68 L 68 68" stroke="#0F172A" strokeWidth="3.5" strokeLinecap="round" />
+          <text x="50" y="93" textAnchor="middle" fontSize="10" fontWeight="bold" fill="#0F172A" fontFamily="Fredoka">SEPARAR PALABRAS</text>
+        </svg>
+      );
+
     default:
       return (
         <div className="flex items-center justify-center w-20 h-20 bg-amber-200 rounded-2xl text-3xl font-bold text-amber-900 border-4 border-amber-500">

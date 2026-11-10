@@ -1,9 +1,19 @@
 import { QuizAttempt } from '../types';
 
-const STORAGE_KEY_ATTEMPTS = 'informatica_quiz_attempts_v1';
-const STORAGE_KEY_CURRENT_STUDENT = 'informatica_quiz_current_student';
+export const MAX_ATTEMPTS = 2;
 
-export function calculateScore(correctCount: number, totalQuestions: number = 21): number {
+const STORAGE_KEY_ATTEMPTS = 'informatica_evaluacion_final_v1';
+const STORAGE_KEY_CURRENT_STUDENT = 'informatica_evaluacion_current_student';
+
+export function normalizeStudentName(name: string): string {
+  // Strip leading emoji/symbols and extra spaces so "🤖 Sofía" and "Sofía" match the same student
+  return name
+    .replace(/^[\p{Emoji}\p{Emoji_Presentation}\p{Extended_Pictographic}\s]+/gu, '')
+    .trim()
+    .toLowerCase();
+}
+
+export function calculateScore(correctCount: number, totalQuestions: number = 25): number {
   if (totalQuestions <= 0) return 0;
   const rawScore = (correctCount / totalQuestions) * 10;
   return Math.round(rawScore * 10) / 10;
@@ -26,13 +36,23 @@ export function getAllAttempts(): QuizAttempt[] {
 
 export function getAttemptsForStudent(studentName: string): QuizAttempt[] {
   const all = getAllAttempts();
-  const normalized = studentName.trim().toLowerCase();
-  return all.filter(a => a.studentName.trim().toLowerCase() === normalized);
+  const normalized = normalizeStudentName(studentName);
+  if (!normalized) return [];
+  return all.filter(a => normalizeStudentName(a.studentName) === normalized);
 }
 
 export function getNextAttemptNumber(studentName: string): number {
   const studentAttempts = getAttemptsForStudent(studentName);
   return studentAttempts.length + 1;
+}
+
+export function getRemainingAttempts(studentName: string): number {
+  const used = getAttemptsForStudent(studentName).length;
+  return Math.max(0, MAX_ATTEMPTS - used);
+}
+
+export function canStudentAttempt(studentName: string): boolean {
+  return getRemainingAttempts(studentName) > 0;
 }
 
 export function getBestScoreForStudent(studentName: string): number | null {
@@ -46,7 +66,7 @@ export function saveAttempt(
   correctCount: number,
   incorrectCount: number,
   answers: QuizAttempt['answers'],
-  totalQuestions: number = 21
+  totalQuestions: number = 25
 ): QuizAttempt {
   const score = calculateScore(correctCount, totalQuestions);
   const status = isPassing(score) ? 'APROBADO' : 'DEBE SEGUIR PRACTICANDO';
@@ -101,4 +121,3 @@ export function clearAllAttempts(): void {
     // Ignore error
   }
 }
-

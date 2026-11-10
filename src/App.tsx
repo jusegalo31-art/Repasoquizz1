@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ScreenState, Option, OptionColor, QuizAttempt } from './types';
 import { QUESTIONS_DATA } from './data/questions';
 import { StartScreen } from './components/StartScreen';
@@ -7,13 +7,14 @@ import { ResultsScreen } from './components/ResultsScreen';
 import { HistoryModal } from './components/HistoryModal';
 import { TeacherSettingsModal } from './components/TeacherSettingsModal';
 import { ttsClient } from './services/ttsClient';
-import { saveAttempt, getBestScoreForStudent } from './services/storage';
+import { saveAttempt, getBestScoreForStudent, canStudentAttempt } from './services/storage';
 
 export default function App() {
   const [screen, setScreen] = useState<ScreenState>('start');
   const [studentName, setStudentName] = useState<string>('');
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [answers, setAnswers] = useState<{ questionId: number; selectedOptionId: string; isCorrect: boolean }[]>([]);
+  const [, setAnswers] = useState<{ questionId: number; selectedOptionId: string; isCorrect: boolean }[]>([]);
+  const answersRef = useRef<{ questionId: number; selectedOptionId: string; isCorrect: boolean }[]>([]);
   const [currentAttempt, setCurrentAttempt] = useState<QuizAttempt | null>(null);
 
   // Voice narration states
@@ -42,10 +43,15 @@ export default function App() {
     };
   }, []);
 
-  // 1. Start Quiz handler
+  // 1. Start Quiz handler (enforces max 2 attempts)
   const handleStartQuiz = (name: string) => {
+    if (!canStudentAttempt(name)) {
+      setIsHistoryOpen(true);
+      return;
+    }
     setStudentName(name);
     setCurrentQuestionIndex(0);
+    answersRef.current = [];
     setAnswers([]);
     setCurrentAttempt(null);
     setScreen('quiz');
@@ -58,14 +64,13 @@ export default function App() {
 
   // 3. Option Selection in Quiz
   const handleAnswerSelected = (questionId: number, selectedOption: Option) => {
-    setAnswers(prev => [
-      ...prev,
-      {
-        questionId,
-        selectedOptionId: selectedOption.id,
-        isCorrect: selectedOption.isCorrect,
-      },
-    ]);
+    const entry = {
+      questionId,
+      selectedOptionId: selectedOption.id,
+      isCorrect: selectedOption.isCorrect,
+    };
+    answersRef.current = [...answersRef.current, entry];
+    setAnswers(answersRef.current);
   };
 
   // 4. Advance to Next Question or Final Results
@@ -81,17 +86,29 @@ export default function App() {
 
   // 5. Complete Quiz & Persist
   const finishQuiz = () => {
-    const correctCount = answers.filter(a => a.isCorrect).length;
+    const currentAnswers = answersRef.current;
+    const correctCount = currentAnswers.filter(a => a.isCorrect).length;
     const incorrectCount = QUESTIONS_DATA.length - correctCount;
 
-    const savedAttempt = saveAttempt(studentName, correctCount, incorrectCount, answers, QUESTIONS_DATA.length);
+    const savedAttempt = saveAttempt(
+      studentName,
+      correctCount,
+      incorrectCount,
+      currentAnswers,
+      QUESTIONS_DATA.length
+    );
     setCurrentAttempt(savedAttempt);
     setScreen('results');
   };
 
-  // 6. Play Again (same student, new attempt)
+  // 6. Play Again (same student, 2nd attempt if allowed)
   const handlePlayAgain = () => {
+    if (!canStudentAttempt(studentName)) {
+      setScreen('start');
+      return;
+    }
     setCurrentQuestionIndex(0);
+    answersRef.current = [];
     setAnswers([]);
     setCurrentAttempt(null);
     setScreen('quiz');
@@ -156,4 +173,3 @@ export default function App() {
     </div>
   );
 }
-

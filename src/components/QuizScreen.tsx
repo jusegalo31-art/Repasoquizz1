@@ -141,7 +141,7 @@ export const QuizScreen: React.FC<QuizScreenProps> = ({
       {/* 3. Question Card */}
       <div className="w-full bg-white/95 backdrop-blur-md rounded-3xl p-4 sm:p-6 shadow-xl border-4 border-indigo-200 text-center my-2 relative">
         <div className="inline-block bg-indigo-100 text-indigo-900 px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold uppercase mb-2">
-          Pregunta #{currentQuestionIndex + 1}
+          Evaluación Final • Pregunta #{currentQuestionIndex + 1} de {questions.length}
         </div>
         <h2 className="text-xl sm:text-2xl md:text-3xl font-black text-slate-800 leading-snug">
           {currentQuestion.promptText}

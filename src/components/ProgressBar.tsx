@@ -17,11 +17,14 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div className="w-full bg-white/90 backdrop-blur-sm rounded-3xl p-3 sm:p-4 shadow-lg border-2 border-indigo-200 select-none mb-3">
       <div className="flex items-center justify-between gap-2 mb-2">
-        {/* Student name pill */}
+        {/* Student name & Evaluación Final pill */}
         <div className="flex items-center gap-1.5 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">
           <span className="text-base sm:text-lg">🎒</span>
-          <span className="font-extrabold text-indigo-950 text-xs sm:text-sm truncate max-w-[140px] sm:max-w-[200px]">
+          <span className="font-extrabold text-indigo-950 text-xs sm:text-sm truncate max-w-[120px] sm:max-w-[180px]">
             {studentName || 'Estudiante'}
+          </span>
+          <span className="hidden md:inline-block text-[11px] bg-indigo-600 text-white font-black px-2 py-0.5 rounded-full uppercase">
+            Evaluación Final
           </span>
         </div>
 

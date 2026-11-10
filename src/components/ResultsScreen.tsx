@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { QuizAttempt } from '../types';
 import { Mascot } from './Mascot';
-import { Trophy, RotateCcw, BarChart2, Star, Award, Volume2, UserCheck } from 'lucide-react';
+import { RotateCcw, BarChart2, Star, Award, Volume2, UserCheck, CheckCircle2 } from 'lucide-react';
 import { soundEffects } from '../services/soundEffects';
 import { ttsClient } from '../services/ttsClient';
+import { MAX_ATTEMPTS } from '../services/storage';
 
 interface ResultsScreenProps {
   currentAttempt: QuizAttempt;
@@ -25,8 +26,9 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
   onViewHistory,
   onChangeStudent,
 }) => {
-  const total = totalQuestions || (currentAttempt.correctCount + currentAttempt.incorrectCount) || 21;
+  const total = totalQuestions || currentAttempt.correctCount + currentAttempt.incorrectCount || 25;
   const isApproved = currentAttempt.score >= 6.0;
+  const canRetry = currentAttempt.attemptNumber < MAX_ATTEMPTS;
 
   useEffect(() => {
     if (isApproved) {
@@ -66,6 +68,11 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
         <div className="absolute -top-12 -right-12 w-36 h-36 bg-amber-200 rounded-full blur-3xl opacity-60 pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-36 h-36 bg-emerald-200 rounded-full blur-3xl opacity-60 pointer-events-none" />
 
+        {/* Evaluation Final Header Pill */}
+        <div className="inline-block bg-amber-300 text-amber-950 font-black px-4 py-1 rounded-full text-xs uppercase tracking-wider border border-amber-500 mb-2">
+          Resultado • Evaluación Final de Informática
+        </div>
+
         {/* Mascot */}
         <div className="flex justify-center mb-2">
           <Mascot
@@ -79,8 +86,8 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
         <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-950 font-black px-4 py-1.5 rounded-full text-sm sm:text-base mb-3 border border-indigo-300">
           <span>🎒</span>
           <span>{currentAttempt.studentName}</span>
-          <span className="text-xs bg-indigo-600 text-white px-2 py-0.5 rounded-full">
-            Intento #{currentAttempt.attemptNumber}
+          <span className="text-xs bg-indigo-600 text-white px-2.5 py-0.5 rounded-full">
+            Intento {currentAttempt.attemptNumber} de {MAX_ATTEMPTS}
           </span>
         </div>
 
@@ -96,7 +103,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
               ¡FELICITACIONES! 🏆
             </h1>
             <p className="text-lg sm:text-2xl font-black text-indigo-900 mt-1">
-              ¡ERES UN GRAN EXPERTO EN INFORMÁTICA! ⭐
+              ¡APROBASTE TU EVALUACIÓN FINAL DE INFORMÁTICA! ⭐
             </p>
           </div>
         ) : (
@@ -116,7 +123,7 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
         {/* Big Score Card on 0-10 Scale */}
         <div className="my-5 p-5 rounded-3xl bg-gradient-to-b from-slate-50 to-indigo-50 border-3 border-indigo-200 shadow-inner">
           <div className="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-slate-500 mb-1">
-            Tu Calificación Final
+            Calificación de Evaluación Final
           </div>
           <div className="flex items-baseline justify-center gap-2">
             <span
@@ -162,16 +169,37 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
           <div className="bg-sky-50 border-2 border-sky-200 rounded-2xl p-3">
             <span className="text-xs font-bold text-sky-800">Intento</span>
             <p className="text-xl sm:text-2xl font-black text-sky-700">
-              #{currentAttempt.attemptNumber}
+              {currentAttempt.attemptNumber} / {MAX_ATTEMPTS}
             </p>
           </div>
 
           <div className="bg-amber-50 border-2 border-amber-200 rounded-2xl p-3">
-            <span className="text-xs font-bold text-amber-800">Mejor nota</span>
+            <span className="text-xs font-bold text-amber-800">Nota Definitiva</span>
             <p className="text-xl sm:text-2xl font-black text-amber-600">
               {bestScore.toFixed(1)}
             </p>
           </div>
+        </div>
+
+        {/* Notice about attempts remaining */}
+        <div
+          className={`mb-4 p-3 rounded-2xl border-2 text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 ${
+            canRetry
+              ? 'bg-amber-50 border-amber-300 text-amber-900'
+              : 'bg-indigo-50 border-indigo-300 text-indigo-900'
+          }`}
+        >
+          <CheckCircle2 className="w-5 h-5 shrink-0 text-indigo-600" />
+          {canRetry ? (
+            <span>
+              ¡Aún te queda <strong>1 intento adicional</strong> si deseas mejorar tu calificación!
+            </span>
+          ) : (
+            <span>
+              ¡Ya completaste tus <strong>{MAX_ATTEMPTS} intentos permitidos</strong>! Tu nota más alta (
+              <strong>{bestScore.toFixed(1)}</strong>) queda registrada.
+            </span>
+          )}
         </div>
 
         {/* Repeat Voice Button */}
@@ -186,20 +214,33 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
           </button>
         </div>
 
-        {/* Action Buttons: Volver a jugar & Ver mis resultados */}
+        {/* Action Buttons: Volver a jugar (only if < 2 attempts) & Ver mis resultados */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 w-full">
-          {/* VOLVER A JUGAR */}
-          <button
-            type="button"
-            onClick={() => {
-              soundEffects.playPop();
-              onPlayAgain();
-            }}
-            className="w-full sm:w-1/2 py-4 px-6 rounded-3xl game-btn-green text-white font-black text-lg sm:text-xl uppercase tracking-wider border-3 border-emerald-600 cursor-pointer transition-transform hover:scale-102 active:scale-98 shadow-xl flex items-center justify-center gap-2"
-          >
-            <RotateCcw className="w-6 h-6" />
-            <span>VOLVER A JUGAR</span>
-          </button>
+          {canRetry ? (
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playPop();
+                onPlayAgain();
+              }}
+              className="w-full sm:w-1/2 py-4 px-6 rounded-3xl game-btn-green text-white font-black text-base sm:text-lg uppercase tracking-wider border-3 border-emerald-600 cursor-pointer transition-transform hover:scale-102 active:scale-98 shadow-xl flex items-center justify-center gap-2"
+            >
+              <RotateCcw className="w-6 h-6" />
+              <span>USAR INTENTO #2</span>
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playPop();
+                onChangeStudent();
+              }}
+              className="w-full sm:w-1/2 py-4 px-6 rounded-3xl game-btn-green text-white font-black text-base sm:text-lg uppercase tracking-wider border-3 border-emerald-600 cursor-pointer transition-transform hover:scale-102 active:scale-98 shadow-xl flex items-center justify-center gap-2"
+            >
+              <UserCheck className="w-6 h-6" />
+              <span>SIGUIENTE ESTUDIANTE</span>
+            </button>
+          )}
 
           {/* VER MIS RESULTADOS */}
           <button
@@ -208,29 +249,30 @@ export const ResultsScreen: React.FC<ResultsScreenProps> = ({
               soundEffects.playPop();
               onViewHistory();
             }}
-            className="w-full sm:w-1/2 py-4 px-6 rounded-3xl game-btn-blue text-white font-black text-lg sm:text-xl uppercase tracking-wider border-3 border-sky-600 cursor-pointer transition-transform hover:scale-102 active:scale-98 shadow-xl flex items-center justify-center gap-2"
+            className="w-full sm:w-1/2 py-4 px-6 rounded-3xl game-btn-blue text-white font-black text-base sm:text-lg uppercase tracking-wider border-3 border-sky-600 cursor-pointer transition-transform hover:scale-102 active:scale-98 shadow-xl flex items-center justify-center gap-2"
           >
             <BarChart2 className="w-6 h-6" />
-            <span>VER RESULTADOS</span>
+            <span>VER CALIFICACIONES</span>
           </button>
         </div>
 
         {/* Change Student link */}
-        <div className="mt-4 pt-4 border-t border-slate-200">
-          <button
-            type="button"
-            onClick={() => {
-              soundEffects.playPop();
-              onChangeStudent();
-            }}
-            className="text-xs sm:text-sm font-bold text-slate-500 hover:text-indigo-600 flex items-center justify-center gap-1 mx-auto cursor-pointer"
-          >
-            <UserCheck className="w-4 h-4" />
-            <span>¿Jugar con otro estudiante? Haz clic aquí</span>
-          </button>
-        </div>
+        {canRetry && (
+          <div className="mt-4 pt-4 border-t border-slate-200">
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playPop();
+                onChangeStudent();
+              }}
+              className="text-xs sm:text-sm font-bold text-slate-500 hover:text-indigo-600 flex items-center justify-center gap-1 mx-auto cursor-pointer"
+            >
+              <UserCheck className="w-4 h-4" />
+              <span>¿Evaluar a otro estudiante? Haz clic aquí</span>
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 };
-
