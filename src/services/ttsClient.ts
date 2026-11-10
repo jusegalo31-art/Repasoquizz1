@@ -265,6 +265,11 @@ class TTSClientService {
     try {
       this.notifyState('speaking');
 
+      if (question.type === 'written-parts') {
+        await this.speakText(question.spokenQuestion);
+        return;
+      }
+
       // Colombian teacher intros with natural warmth
       const intros = [
         `¡Pilas pues! Vamos con la siguiente pregunta. Escucha con mucha atención: ${question.spokenQuestion}`,

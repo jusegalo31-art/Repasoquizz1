@@ -45,7 +45,7 @@ export const HistoryModal: React.FC<HistoryModalProps> = ({
             <Trophy className="w-6 h-6 text-amber-300" />
             <div>
               <h3 className="text-xl sm:text-2xl font-black">Resultados • Evaluación Final</h3>
-              <p className="text-xs text-indigo-100">25 preguntas • Máximo {MAX_ATTEMPTS} intentos por estudiante</p>
+              <p className="text-xs text-indigo-100">26 preguntas • Máximo {MAX_ATTEMPTS} intentos por estudiante</p>
             </div>
           </div>
           <button

@@ -120,10 +120,10 @@ export const StartScreen: React.FC<StartScreenProps> = ({
           ¿Estás listo para demostrar todo lo que aprendiste?
         </p>
 
-        {/* Info pills: 25 preguntas & 2 intentos */}
+        {/* Info pills: 26 preguntas & 2 intentos */}
         <div className="flex flex-wrap items-center justify-center gap-2 mb-4">
           <span className="px-3 py-1 rounded-full bg-indigo-100 text-indigo-900 font-extrabold text-xs sm:text-sm border border-indigo-300">
-            📝 25 Preguntas
+            📝 25 Selección + 1 Escritura
           </span>
           <span className="px-3 py-1 rounded-full bg-amber-100 text-amber-950 font-extrabold text-xs sm:text-sm border border-amber-300">
             🎯 Máximo {MAX_ATTEMPTS} Intentos por Estudiante

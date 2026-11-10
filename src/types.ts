@@ -9,9 +9,12 @@ export interface Option {
   spokenLabel: string; // The phrase read by narrator, e.g., "Una máquina que nos ayuda a realizar tareas."
 }
 
+export type QuestionType = 'multiple-choice' | 'written-parts';
+
 export interface Question {
   id: number;
   questionNumber: number;
+  type?: QuestionType;
   promptText: string;
   spokenQuestion: string;
   options: Option[];
@@ -41,4 +44,3 @@ export interface TTSStatus {
   modelId: string;
   cachedFilesCount: number;
 }
-
